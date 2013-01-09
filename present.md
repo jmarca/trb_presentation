@@ -1,3 +1,6 @@
+Idea: have Emma and Grace produce some illustrations for this
+
+
 # Finding Change in the CouchDB
 
 # Big Data
