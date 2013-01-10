@@ -6,15 +6,11 @@
 
 # Big Data
 
-# We've got big data!
-
-# New tools:  non-relational databases
-
-## (aka "NoSQL")
+# We've always had big data!
 
 # Old tool:  PostgreSQL
 
-# The question:
+# Old queries:
 
 "Is the current reading of volume and occupancy from some detector
 more or less than what should be expected?"
@@ -24,15 +20,17 @@ more or less than what should be expected?"
 1. Precompute some average value
 2. by time of day
 3. and day of week
-4. Compare.
+4. Compare with current
 
-# But we had all the data ...
+# But we had a new server and a terabyte drive
+
+# ... and all the raw data for a year ...
 
 # ... In  PostgreSQL ...
 
 # ... Ready to query dynamically ...
 
-# A Big Query
+# A Big Query using "WITH" and subselect clauses
 
 > "What is the average volume and occupancy for every 5 minute period
 > over the prior 365 days (less holidays) for any loop detector"
