@@ -1,11 +1,12 @@
-Idea: have Emma and Grace produce some illustrations for this
+% Finding Change in the CouchDB
+% Dr. James E. Marca
+% January 13, 2013
 
 
-# Finding Change in the CouchDB
 
 # Big Data
 
-# We've got the biggest Data of them all
+# We've got big data!
 
 # New tools:  non-relational databases
 
