@@ -101,7 +101,7 @@ more or less than what should be expected?"
 
 # What is CouchDB?
 
-* A document oriented database
+* A document oriented *database*
 
 # What is a database?
 
@@ -112,8 +112,9 @@ more or less than what should be expected?"
 
 # Why not just use flat files?
 
-* One file per loop detector per year
-* Append to file as data arrives
+## Consider loop detectors
+* One file per loop detector per year, or
+* One file for all detectors per day (what PeMS does)
 * Easy to organize and distribute
 * Fine for single user
 
