@@ -10,7 +10,7 @@
 
 # New tools:  non-relational databases
 
-(aka "NoSQL")
+## (aka "NoSQL")
 
 # Old tool:  PostgreSQL
 
@@ -21,28 +21,36 @@ more or less than what should be expected?"
 
 # Old way
 
-Precompute some average value by time of day, and compare.
+1. Precompute some average value
+2. by time of day
+3. and day of week
+4. Compare.
 
-# But we had the data in  PostgreSQL, so...
+# But we had all the data
+
+# In  PostgreSQL
+
+# Ready to query dynamically, so...
 
 # Big Query
 
-"What is the average volume and occupancy for every 5 minute period
-over the prior 365 days (less holidays) for the past year, for any
-loop detector"
+> "What is the average volume and occupancy for every 5 minute period
+> over the prior 365 days (less holidays) for any loop detector"
 
 # Slow
 
-The index was too big to fit in RAM, leading to heavy swapping
+* The index was too big to fit in RAM,
+* The index was swapped in and out
+* Super duper slow!
 
-# That broke my database
+# My database broke
 
 # Big Data, NoSQL
 
 * Google (Big Table)
 * Amazon (Dynamo)
 
-# Options considered
+# Options we considered
 
 * flat files
 * CouchDB
@@ -60,6 +68,7 @@ The index was too big to fit in RAM, leading to heavy swapping
 * RethinkDB
 * Voldemort
 * Datalog
+* and more all the time...
 
 # Why do I think CouchDB is good for transportation data?
 
@@ -74,7 +83,7 @@ The index was too big to fit in RAM, leading to heavy swapping
 
 * 30s volume, occupancy
 * some misses and noise
-* might need known, fixed cleanup procedures to be applied
+* run-once cleanup procedures
 
 # Example: Personal GPS and activity stream
 
@@ -112,6 +121,8 @@ The index was too big to fit in RAM, leading to heavy swapping
 * Fine for single user
     * Consistent
     * Available
+<!-- end of list -->
+
 * Not *performant*
 
 # Is performant a word?
@@ -119,7 +130,7 @@ The index was too big to fit in RAM, leading to heavy swapping
 
 # Flat files can lead to trouble
 
-* Not fine for multiuser
+* Bad for multiuser
     * race conditions,
     * version problems,
     * etc
@@ -128,15 +139,15 @@ The index was too big to fit in RAM, leading to heavy swapping
 > "What was the volume and occupancy like last Monday?"
 
 
-# Use a database
+# So use a database
 
-# But there is the CAP theorem
+# Limited by the CAP theorem
 
-* Consistency
-* Availability
-* Performance
+* **C**onsistency
+* **A**vailability
+* **P**erformance
 
-> _**Choose any two**_
+## _**Choose any two**_
 
 
 # CouchDB
@@ -160,11 +171,19 @@ The index was too big to fit in RAM, leading to heavy swapping
 
 # Bonus: CouchDB has master-master replication
 
-# Replication is super awesome and a massive *change*
+# Replication is:
 
-# New data collection architecture
+* super awesome
+* a massive *change*
 
-* One DB at each detector
+# Replication enables a \
+new data collection architecture
+
+* Put the database at the detector (distributed databases)
+* Move data around by using replication
+
+
+## Examples:
 * Central database replicates all detector databases
 * Global queries can go to central DB
 * Local queries can go directly to detector DBs
