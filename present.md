@@ -43,7 +43,11 @@ The index was too big to fit in RAM, leading to heavy swapping
 
 # Options considered
 
-* flat files, CouchDB, TokyoTyrant, Cassandra, Hadoop
+* flat files
+* CouchDB
+* TokyoTyrant
+* Cassandra
+* Hadoop
 
 # Options available now
 
@@ -65,31 +69,33 @@ The index was too big to fit in RAM, leading to heavy swapping
 * read raw data for short term applications
 * process raw data into spatio-temporal summary stats
 
-# Loop Detector
+# Example: Loop Detectors
 
 * 30s volume, occupancy
 * some misses and noise
 * might need known, fixed cleanup procedures to be applied
 
-# Personal GPS and activity stream
+# Example: Personal GPS and activity stream
 
 * second by second GPS
-* slowly growing sets of routes,  destinations, time windows
-* some known queries, such as most likely next route for a traffic
-  alert app
+* slowly growing sets of:
+    * routes,
+    * destinations,
+    * time windows
+* small set of repeated queries:
+    * Optimize likely activities?
+    * Does traffic affect my usual pattern?
+    * etc
 
 # Why do I think CouchDB is good for transportation data?
 
-# CouchDB
+# What is CouchDB?
 
+# What is a database?
 
-# CAP theorem
-
-* Consistency
-* Availability
-* Performance
-
-Choose any two
+* store data
+* get data
+* allow multiple users
 
 
 # Compare with flat files
@@ -97,37 +103,72 @@ Choose any two
 * One file per loop detector per year
 * Append to file as data arrives
 * Easy to organize and distribute
+
+# Flat files are:
+
 * Good for data cleaning, stats generation, imputation of missing
   data, etc
 * Fine for single user
-   * Consistent
-   * Available
-   * not performant
+    * Consistent
+    * Available
+* Not *performant*
 
 # Is performant a word?
 
 
-# Problems with flat files
+# Flat files can lead to trouble
 
-* Not fine for multiuser (race conditions, version problems, etc)
+* Not fine for multiuser
+    * race conditions,
+    * version problems,
+    * etc
 * Difficult to query
-* "What is the 52 week running average of volume and occupancy for
-   detector 120010 from 8:00AM to 8:05AM on Tuesdays?"
+
+> "What was the volume and occupancy like last Monday?"
+
+
+# Use a database
+
+# But there is the CAP theorem
+
+* Consistency
+* Availability
+* Performance
+
+> _**Choose any two**_
 
 
 # CouchDB
 
+* Chooses **A**vailability, **P**erformance
 * Document model, not schema based
-* Chooses *A*vailability, *P*erformance
-* "Eventually Consistent"
+
+> "Eventually Consistent"
 
 # Consistency isn't that big a deal for traffic data
 
 * Events are observed by one or more sensors
 * Sensors write their observations
+
+
+# Events vs Observations
+
 * The *observations* don't change
 * The interpretation of the *event* might change
-* but a consistent interpretation isn't mission critical
+* But a consistent interpretation isn't mission critical
+
+# Bonus: CouchDB has master-master replication
+
+# Replication is super awesome and a massive *change*
+
+# New data collection architecture
+
+* One DB at each detector
+* Central database replicates all detector databases
+* Global queries can go to central DB
+* Local queries can go directly to detector DBs
+* A traveler can replicate only the traffic DBs along common routes
+
 
 # All replicating databases will be eventually consistent
 
@@ -135,7 +176,7 @@ Choose any two
 
 # Practical experience
 
-(what we are doing with CouchDB)
+## what we are doing with CouchDB
 
 # Processing Raw Loop Detector Data
 
@@ -155,14 +196,14 @@ Orange County, California (CalTrans District 12)
 
 # Document per day reasons:
 
-* Based on informal testing (aka painful experience)
+* Based on ~~painful experience~~ informal testing
 * One document per year is too big to process
 * One document per timestamp would work okay,
 * But the web *application* uses daily data
 * CouchDB sorts by document id, id is based on timestamp
 * HTTP GET:
 
-    /vdsdata/d12/2007/1202248/1202248 2007-01-03 00:00:00
+    /vdsdata/d12/2007/1202248/ 1202248\ 2007-01-03\ 00:00:00
 
 # Database per detector per year reasons:
 
@@ -181,14 +222,32 @@ Orange County, California (CalTrans District 12)
   `_count`,`_sum`, and `_stats`
 
 
-# Use another database to collate model output
+# Difficulty: Need to use another database to collate model output
 
 * Pipe summaries of the per-detector views to a single database for
   all detectors in the district
 * Requires external programming
 * Difficult to automate
-*
+
 
 # Application 2: Storing the results of imputation runs
 
+* Similar to prior example
+* Databases spread over three machines
+* Uses per-district collation databases
+* Analysis step used CouchDB to coordinate multiple processes
+    * Local "state" database on each machine
+    * State databases replicated with each other
+    * No overlapping runs were observed
+
 # Application 3: Convenient stash for detector information
+
+* Uses GeoCouch extensions, stores location of each detector
+* stashes all known information about each detector in a single place
+* uses binary attachments to save R analysis output (plots, files)
+
+# Questions?
+
+## James E. Marca \
+UCI ITS \
+jmarca@translab.its.uci.edu
