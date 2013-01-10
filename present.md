@@ -137,10 +137,11 @@ Choose any two
 
 (what we are doing with CouchDB)
 
-# Storing raw plus stats for Orange County, California (D12)
+# Processing Raw Loop Detector Data
 
-* *fixme* 500 detectors
-* *fixme* 200 mainline detectors
+Orange County, California (CalTrans District 12)
+
+* about 900 mainline detectors
 * Process in R
     * compute 27 different measures per location
     * for 20 minute running time window
@@ -150,26 +151,43 @@ Choose any two
 # Database design:
 
 * One CouchDB database per detector
-* One document per time stamp
+* One document per day
 
-# Document per time stamp reasons:
+# Document per day reasons:
 
-* Based on experience
+* Based on informal testing (aka painful experience)
+* One document per year is too big to process
+* One document per timestamp would work okay,
+* But the web *application* uses daily data
 * CouchDB sorts by document id, id is based on timestamp
-* Typical query is to get a picture of trends over the day
-* alternative is one document per day, but
-    * messier to implement
+* HTTP GET:
 
-# Database per detector reasons:
+    /vdsdata/d12/2007/1202248/1202248 2007-01-03 00:00:00
+
+# Database per detector per year reasons:
 
 * One big database is possible, but
 * Prior to BigCouch, impossible to *split* or *shard* over different
   machines
 * makes better use of multi-core machines when generating views
-* leverages "append-only" file structure (recent adds are faster to read)
 
-# A view to compute daily summaries
 
+# Use views to run models and summarize data
+
+* Views are CouchDB's version of map/reduce
+* Write JavaScript code for the map function that is run on each
+  document (to apply models, run summaries, etc)
+* ProTip^©^ Only use embedded Erlang reduce functions like
+  `_count`,`_sum`, and `_stats`
+
+
+# Use another database to collate model output
+
+* Pipe summaries of the per-detector views to a single database for
+  all detectors in the district
+* Requires external programming
+* Difficult to automate
+*
 
 # Application 2: Storing the results of imputation runs
 
