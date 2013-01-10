@@ -199,8 +199,8 @@ detectors
     * for 20 minute running time window
     * (vol, occ per lane + 27 ) per 30s period
     * run models estimating relative risk of accident types
-* ~280GB of data (three years)
-* ~590GB of generated views
+* ≅280GB of data (three years)
+* ≅590GB of generated views
 
 # Database design:
 
@@ -246,8 +246,8 @@ detectors
 # Application 2: Storing the results of imputation runs
 
 * Similar to prior example
-* ~400GB of data
-* ~700GB of generated views
+* ≅400GB of data
+* ≅700GB of generated views
 * Databases spread over three machines
 * Uses per-district collation databases
 * Analysis step used CouchDB to coordinate multiple processes
@@ -257,8 +257,8 @@ detectors
 
 # Application 3: Convenient stash for detector metadata
 
-* ~20GB of data
-* ~222MB of generated views
+* ≅20GB of data
+* ≅222MB of generated views
 * Uses GeoCouch extensions, stores location of each detector
 * Stashes all known metadata about each detector in a single place
 * Uses binary attachments to save R analysis output (plots, files)
