@@ -26,26 +26,24 @@ more or less than what should be expected?"
 3. and day of week
 4. Compare.
 
-# But we had all the data
+# But we had all the data ...
 
-# In  PostgreSQL
+# ... In  PostgreSQL ...
 
-# Ready to query dynamically, so...
+# ... Ready to query dynamically ...
 
-# Big Query
+# A Big Query
 
 > "What is the average volume and occupancy for every 5 minute period
 > over the prior 365 days (less holidays) for any loop detector"
 
-# Slow
-
-* The index was too big to fit in RAM,
-* The index was swapped in and out
-* Super duper slow!
-
 # My database broke
 
-# Big Data, NoSQL
+* The index was too big to fit in RAM,
+* Extensive disk swapping
+* Super-duper slow!
+
+# Alternatives for Big Data: NoSQL
 
 * Google (Big Table)
 * Amazon (Dynamo)
@@ -61,23 +59,25 @@ more or less than what should be expected?"
 # Options available now
 
 * Hadoop
-* Riak
 * MongoDB
+* Riak
 * CouchDB
+* BigCouch
+* Couchbase
 * Cassandra
-* RethinkDB
 * Voldemort
+* RethinkDB
 * Datalog
 * and more all the time...
 
 # Why do I think CouchDB is good for transportation data?
 
-# Transportation data
+# What is transportation data?
 
 * largely observations and measurements
 * write once
 * read raw data for short term applications
-* process raw data into spatio-temporal summary stats
+* process raw data into summary stats
 
 # Example: Loop Detectors
 
@@ -101,6 +101,8 @@ more or less than what should be expected?"
 
 # What is CouchDB?
 
+* A document oriented database
+
 # What is a database?
 
 * store data
@@ -108,27 +110,14 @@ more or less than what should be expected?"
 * allow multiple users
 
 
-# Compare with flat files
+# Why not just use flat files?
 
 * One file per loop detector per year
 * Append to file as data arrives
 * Easy to organize and distribute
-
-# Flat files are:
-
-* Good for data cleaning, stats generation, imputation of missing
-  data, etc
 * Fine for single user
-    * Consistent
-    * Available
-<!-- end of list -->
 
-* Not *performant*
-
-# Is performant a word?
-
-
-# Flat files can lead to trouble
+# But flat files can lead to trouble
 
 * Bad for multiuser
     * race conditions,
@@ -141,7 +130,7 @@ more or less than what should be expected?"
 
 # So use a database
 
-# Limited by the CAP theorem
+# Databases are limited by the CAP theorem
 
 * **C**onsistency
 * **A**vailability
@@ -153,28 +142,24 @@ more or less than what should be expected?"
 # CouchDB
 
 * Chooses **A**vailability, **P**erformance
-* Document model, not schema based
 
 > "Eventually Consistent"
 
 # Consistency isn't that big a deal for traffic data
 
-* Events are observed by one or more sensors
-* Sensors write their observations
-
-
-# Events vs Observations
-
-* The *observations* don't change
-* The interpretation of the *event* might change
-* But a consistent interpretation isn't mission critical
+* This isn't stock trading or e-commerce
+* Not a big deal if
+    * you are 30s behind reading a loop
+    * Controller A has slightly more current info than Controller B
+> A universally consistent view  isn't mission critical
 
 # Bonus: CouchDB has master-master replication
 
 # Replication is:
 
-* super awesome
-* a massive *change*
+# super awesome
+
+# the *change* I was looking for
 
 # Replication enables a \
 new data collection architecture
@@ -183,31 +168,37 @@ new data collection architecture
 * Move data around by using replication
 
 
-## Examples:
-* Central database replicates all detector databases
-* Global queries can go to central DB
-* Local queries can go directly to detector DBs
+## Uses:
+
+* A TMC can still pull-replicate from  all detector databases
+* A Local or Freeway specific TMC can limit replication to relevant
+detectors
 * A traveler can replicate only the traffic DBs along common routes
 
 
 # All replicating databases will be eventually consistent
 
+# Master:Master means all are equally good candidates for replication
+
 # Relax
 
 # Practical experience
 
-## what we are doing with CouchDB
+1. Processing, storing raw loop detector data
+2. Imputing missing detector data
+3. A single stash for storing detector metadata
 
 # Processing Raw Loop Detector Data
 
-Orange County, California (CalTrans District 12)
-
+* Orange County, California (CalTrans District 12)
 * about 900 mainline detectors
 * Process in R
     * compute 27 different measures per location
     * for 20 minute running time window
     * (vol, occ per lane + 27 ) per 30s period
     * run models estimating relative risk of accident types
+* ≅280GB of data (three years)
+* ≅590GB of generated views
 
 # Database design:
 
@@ -223,13 +214,13 @@ Orange County, California (CalTrans District 12)
 * CouchDB sorts by document id, id is based on timestamp
 * HTTP GET:
 
-    /vdsdata/d12/2007/1202248/ 1202248\ 2007-01-03\ 00:00:00
+    /vdsdata/d12/2007/1202248/1202248\ 2007-01-03\ 00:00:00
 
 # Database per detector per year reasons:
 
 * One big database is possible, but
-* Prior to BigCouch, impossible to *split* or *shard* over different
-  machines
+* Impossible to *split* or *shard* over different
+  machines (now can use BigCouch)
 * makes better use of multi-core machines when generating views
 
 
@@ -253,6 +244,8 @@ Orange County, California (CalTrans District 12)
 # Application 2: Storing the results of imputation runs
 
 * Similar to prior example
+* ≅400GB of data
+* ≅700GB of generated views
 * Databases spread over three machines
 * Uses per-district collation databases
 * Analysis step used CouchDB to coordinate multiple processes
@@ -260,11 +253,15 @@ Orange County, California (CalTrans District 12)
     * State databases replicated with each other
     * No overlapping runs were observed
 
-# Application 3: Convenient stash for detector information
+# Application 3: Convenient stash for detector metadata
 
+* ≅20GB of data
+* ≅222MB of generated views
 * Uses GeoCouch extensions, stores location of each detector
-* stashes all known information about each detector in a single place
-* uses binary attachments to save R analysis output (plots, files)
+* Stashes all known metadata about each detector in a single place
+* Uses binary attachments to save R analysis output (plots, files)
+* Small enough to replicate to my laptop too
+
 
 # Questions?
 
