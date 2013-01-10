@@ -149,9 +149,10 @@ more or less than what should be expected?"
 # Consistency isn't that big a deal for traffic data
 
 * This isn't stock trading or e-commerce
-* Not a big deal if
+* It's okay if:
     * you are 30s behind reading a loop
     * Controller A has slightly more current info than Controller B
+
 > A universally consistent view  isn't mission critical
 
 # Bonus: CouchDB has master-master replication
