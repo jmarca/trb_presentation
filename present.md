@@ -2,44 +2,56 @@
 % Dr. James E. Marca
 % January 13, 2013
 
+--------------------
+
+![](figs/couch_girl.png)\
+
+
+--------------------
 
 
 # Big Data
 
+![](figs/data.png)\
+
+
 # We've always had big data!
 
-# Old tool:  PostgreSQL
+* We've been handling big data for years in transportation
+* What's wrong with sticking to the old tools?
 
-# Old queries:
+# Old Way:
+
+* PostgreSQL
+* Simple queries
+* Canned aggregates
 
 "Is the current reading of volume and occupancy from some detector
 more or less than what should be expected?"
 
-# Old way
 
-1. Precompute some average value
-2. by time of day
-3. and day of week
-4. Compare with current
+# But we had a new server and a terabyte drive...
 
-# But we had a new server and a terabyte drive
+# ...and all the raw data for a year...
 
-# ... and all the raw data for a year ...
+# ...Ready to query dynamically...
 
-# ... In  PostgreSQL ...
+# ...In PostgreSQL
 
-# ... Ready to query dynamically ...
 
-# A Big Query using "WITH" and subselect clauses
-
-> "What is the average volume and occupancy for every 5 minute period
-> over the prior 365 days (less holidays) for any loop detector"
+> "What is the expected volume \
+for any 5 minute period \
+over the prior 365 days \
+for any loop detector"
 
 # My database broke
 
-* The index was too big to fit in RAM,
+* The index was too big to fit in RAM
 * Extensive disk swapping
 * Super-duper slow!
+
+![](figs/sad_dad.png)\
+
 
 # Alternatives for Big Data: NoSQL
 
@@ -70,6 +82,9 @@ more or less than what should be expected?"
 
 # Why do I think CouchDB is good for transportation data?
 
+![](figs/red_couch.png)\
+
+
 # What is transportation data?
 
 * largely observations and measurements
@@ -82,6 +97,9 @@ more or less than what should be expected?"
 * 30s volume, occupancy
 * some misses and noise
 * run-once cleanup procedures
+
+![](figs/traffic_circle.png)\
+
 
 # Example: Personal GPS and activity stream
 
@@ -96,6 +114,9 @@ more or less than what should be expected?"
     * etc
 
 # Why do I think CouchDB is good for transportation data?
+
+![](figs/red_couch.png)\
+
 
 # What is CouchDB?
 
@@ -129,18 +150,33 @@ more or less than what should be expected?"
 
 # So use a database
 
+![](figs/red_couch.png)\
+
+
+# The CAP Theorem
+
+
+![](figs/cap_theorem.jpg)\
+
+
 # Databases are limited by the CAP theorem
 
+
 * **C**onsistency
+    All database clients see the same data, even with concurrent updates.
 * **A**vailability
-* **P**erformance
+    All database clients are able to access some version of the data.
+* **P**artition Tolerance
+    The database can be split over multiple servers.
 
 ## _**Choose any two**_
 
 
-# CouchDB
+# Traditional RDBMS  choose C and A
 
-* Chooses **A**vailability, **P**erformance
+# CouchDB chooses A and P
+
+* **A**vailability, **P**artition Tolerance
 
 > "Eventually Consistent"
 
