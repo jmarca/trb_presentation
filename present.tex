@@ -33,14 +33,14 @@
 % {Finding Change in the CouchDB}
 
 
-%%\SlideTitle[big-data]{Big Data}
+%%\SlideTitle{Big Data}
 
 \IncludePicture
 [horizontal]
 [data.png]
 {Big Data}
 
-\SlideTitle[weve-always-had-big-data]{We've always had big data!}
+\SlideTitle{We've always had big data!}
 
 \startitemize
 \item
@@ -49,7 +49,7 @@
   What's wrong with sticking to the old tools?
 \stopitemize
 
-\SlideTitle[old-way]{Old Way:}
+\SlideTitle{Old Way:}
 
 \startitemize
 \item
@@ -65,37 +65,39 @@ detector more or less than what should be expected?}
 
 \SlideTitle{But we had a new server\ldots{}}
 
-\SlideTitle{\ldots{}and all the raw data
-for a year\ldots{}}
+\startitemize
+\item
+  Lots of CPU
+\item
+  Big Disks
+\item
+  Raw data already loaded
+\item in PostgreSQL\ldots{}
+\stopitemize
 
-\SlideTitle{\ldots{}Ready to query
-dynamically\ldots{}}
 
-\SlideTitle[in-postgresql]{\ldots{}In PostgreSQL}
-
-\startblockquote
-\quotation{What is the expected volume \crlf
-for any 5 minute period \crlf
-over the prior 365 days \crlf
-for any loop detector}
-\stopblockquote
-
-\SlideTitle[my-database-broke]{My database broke}
+% \startblockquote
+% \quotation{What is the expected volume \crlf
+% for any 5 minute period \crlf
+% over the prior 365 days \crlf
+% for any loop detector}
+% \stopblockquote
 
 \IncludePicture
 [vertical]
 [sad_dad.png]
+{\raggedright
 {\startitemize
 \item
-  The index was too big to fit in RAM
+  The index was too big
 \item
   Extensive disk swapping
 \item
   Super-duper slow!
 \stopitemize
-}
+}}
 
-\SlideTitle[alternatives-for-big-data-nosql]{Grandparents of Big Data
+\SlideTitle{Grandparents of Big Data
   and NoSQL}
 
 \startitemize
@@ -106,7 +108,7 @@ for any loop detector}
 \stopitemize
 
 
-\SlideTitle[options-available-now]{Some options available now}
+\SlideTitle{Some options available now}
 
 \startitemize
 \item
@@ -133,14 +135,13 @@ for any loop detector}
   and more all the time\ldots{}
 \stopitemize
 
-%\SlideTitle[why-do-i-think-couchdb-is-good-for-transportation-data]
 
 \IncludePicture
 [horizontal]
 [red_couch.png]
 {CouchDB is great for transportation data}
 
-\SlideTitle[what-is-transportation-data]{What is transportation data?}
+\SlideTitle{Because transportation data is}
 
 \startitemize
 \item
@@ -153,7 +154,7 @@ for any loop detector}
   process raw data into summary stats
 \stopitemize
 
-\SlideTitle[example-loop-detectors]{Example: Loop Detectors}
+\SlideTitle{Example: Loop Detectors}
 
 \startitemize
 \item
@@ -196,10 +197,10 @@ for any loop detector}
 %   \stopitemize
 % \stopitemize
 
-\SlideTitle[why-do-i-think-couchdb-is-good-for-transportation-data-1]{Why
-do I think CouchDB is good for transportation data?}
+%\SlideTitle[why-do-i-think-couchdb-is-good-for-transportation-data-1]{Why
+%do I think CouchDB is good for transportation data?}
 
-{\externalfigure[figs/red_couch.png]}\crlf
+%{\externalfigure[figs/red_couch.png]}\crlf
 
 \IncludePicture
 [horizontal]
@@ -265,38 +266,42 @@ do I think CouchDB is good for transportation data?}
 [horizontal]
 [cap_theorem.jpg]{The CAP Theorem}
 
-\SlideTitle[databases-are-limited-by-the-cap-theorem]{Databases are limited
-by the CAP theorem}
+\SlideTitle{The CAP theorem describes a fundamental limitation of databases}
 
 \startitemize
 \item
-  {\bf C}onsistency All database clients see the same data, even with
+  {\bf Consistency} All database clients see the same data, even with
   concurrent updates.
 \item
-  {\bf A}vailability All database clients are able to access some
+  {\bf Availability} All database clients are able to access some
   version of the data.
 \item
-  {\bf P}artition Tolerance The database can be split over multiple
+  {\bf Partition Tolerance} The database can be split over multiple
   servers.
 \stopitemize
 
-\subsection[choose-any-two]{{\em {\bf Choose any two}}}
+{\em {\bf Choose any two}}
 
-\SlideTitle[traditional-rdbms-choose-c-and-a]{Traditional RDBMS choose C
-and A}
+\SlideTitle{Traditional RDBMS}
 
-\SlideTitle[couchdb-chooses-a-and-p]{CouchDB chooses A and P}
+\startitemize
+\item Consistency
+\item Availability
+\stopitemize
+
+\SlideTitle{CouchDB}
 
 \startitemize
 \item
-  {\bf A}vailability, {\bf P}artition Tolerance
+  {\bf A}vailability
+\item  {\bf P}artition Tolerance
 \stopitemize
 
 \startblockquote
 \quotation{Eventually Consistent}
 \stopblockquote
 
-\SlideTitle[consistency-isnt-that-big-a-deal-for-traffic-data]{Consistency
+\SlideTitle{Consistency
 isn't that big a deal for traffic data}
 
 \startitemize
@@ -316,48 +321,43 @@ isn't that big a deal for traffic data}
 A universally consistent view isn't mission critical
 \stopblockquote
 
-\SlideTitle[bonus-couchdb-has-master-master-replication]{Bonus: CouchDB has
+\SlideTitle{Bonus: CouchDB has
 master-master replication}
 
-\SlideTitle[replication-is]{Replication is:}
+Replication is super awesome!
 
-\SlideTitle[super-awesome]{super awesome}
-
-\SlideTitle[the-change-i-was-looking-for]{the {\em change} I was looking
+\IncludePicture
+[horizontal]
+[couch_girl.png]
+{Replication is the {\em change} I was looking
 for}
 
-\SlideTitle[replication-enables-a-new-data-collection-architecture]{Replication
-enables a \crlf
-new data collection architecture}
+\SlideTitle{We can have distributed databases!!}
 
 \startitemize
 \item
-  Put the database at the detector (distributed databases)
+  Put the database {\em at the detector}
 \item
   Move data around by using replication
 \stopitemize
 
-\subsection[uses]{Uses:}
-
 \startitemize
 \item
-  A TMC can still pull-replicate from all detector databases
+  A TMC can  pull from {\em all} detector databases
 \item
-  A Local or Freeway specific TMC can limit replication to relevant
+  A Local TMC can {\em limit replication} to relevant
   detectors
 \item
-  A traveler can replicate only the traffic DBs along common routes
+  A traveler can replicate traffic DBs along common routes
 \stopitemize
 
-\SlideTitle[all-replicating-databases-will-be-eventually-consistent]{All
-replicating databases will be eventually consistent}
 
-\SlideTitle[mastermaster-means-all-are-equally-good-candidates-for-replication]{Master:Master
-means all are equally good candidates for replication}
+\IncludePicture
+[horizontal]
+[girl_bike.png]
+{Relax}
 
-\SlideTitle[relax]{Relax}
-
-\SlideTitle[practical-experience]{Practical experience}
+\SlideTitle{Practical experience}
 
 \startitemize[n][stopper=.]
 \item
@@ -368,7 +368,7 @@ means all are equally good candidates for replication}
   A single stash for storing detector metadata
 \stopitemize
 
-\SlideTitle[processing-raw-loop-detector-data]{Processing Raw Loop Detector
+\SlideTitle{1: Processing Raw Loop Detector
 Data}
 
 \startitemize
@@ -394,80 +394,10 @@ Data}
   590GB of generated views
 \stopitemize
 
-\SlideTitle[database-design]{Database design:}
+
+\SlideTitle{2: Storing the results of imputation runs}
 
 \startitemize
-\item
-  One CouchDB database per detector
-\item
-  One document per day
-\stopitemize
-
-\SlideTitle[document-per-day-reasons]{Document per day reasons:}
-
-\startitemize
-\item
-  Based on \overstrikes{painful experience} informal testing
-\item
-  One document per year is too big to process
-\item
-  One document per timestamp would work okay,
-\item
-  But the web {\em application} uses daily data
-\item
-  CouchDB sorts by document id, id is based on timestamp
-\item
-  HTTP GET:
-
-  /vdsdata/d12/2007/1202248/1202248~2007-01-03~00:00:00
-\stopitemize
-
-\SlideTitle[database-per-detector-per-year-reasons]{Database per detector
-per year reasons:}
-
-\startitemize
-\item
-  One big database is possible, but
-\item
-  Impossible to {\em split} or {\em shard} over different machines (now
-  can use BigCouch)
-\item
-  makes better use of multi-core machines when generating views
-\stopitemize
-
-\SlideTitle[use-views-to-run-models-and-summarize-data]{Use views to run
-models and summarize data}
-
-\startitemize
-\item
-  Views are CouchDB's version of map/reduce
-\item
-  Write JavaScript code for the map function that is run on each
-  document (to apply models, run summaries, etc)
-\item
-  ProTip\high{©} Only use embedded Erlang reduce functions like
-  \type{_count},\type{_sum}, and \type{_stats}
-\stopitemize
-
-\SlideTitle[difficulty-need-to-use-another-database-to-collate-model-output]{Difficulty:
-Need to use another database to collate model output}
-
-\startitemize
-\item
-  Pipe summaries of the per-detector views to a single database for all
-  detectors in the district
-\item
-  Requires external programming
-\item
-  Difficult to automate
-\stopitemize
-
-\SlideTitle[application-2-storing-the-results-of-imputation-runs]{Application
-2: Storing the results of imputation runs}
-
-\startitemize
-\item
-  Similar to prior example
 \item
   400GB of data
 \item
@@ -488,8 +418,7 @@ Need to use another database to collate model output}
   \stopitemize
 \stopitemize
 
-\SlideTitle[application-3-convenient-stash-for-detector-metadata]{Application
-3: Convenient stash for detector metadata}
+\SlideTitle{3: Convenient stash for detector metadata}
 
 \startitemize
 \item
@@ -506,11 +435,84 @@ Need to use another database to collate model output}
   Small enough to replicate to my laptop too
 \stopitemize
 
-\SlideTitle[questions]{Questions?}
+\SlideTitle{Questions?}
 
-\subsection[james-e.-marca-uci-its-jmarcatranslab.its.uci.edu]{James E.
-Marca \crlf
+{\raggedright
+James E. Marca \crlf
 UCI ITS \crlf
-jmarca@translab.its.uci.edu}
+jmarca@translab.its.uci.edu
+
+
+Research funded by Caltrans, California Air Resources Board}
+
+
+%%\section{additional slides}
+\SlideTitle{Database design:}
+
+\startitemize
+\item
+  One CouchDB database per detector
+\item
+  One document per day
+\stopitemize
+
+\SlideTitle{Document per day reasons:}
+
+\startitemize
+\item
+  Based on \overstrikes{painful experience} informal testing
+\item
+  One document per year is too big to process
+\item
+  One document per timestamp would work okay,
+\item
+  But the web {\em application} uses daily data
+\item
+  CouchDB sorts by document id, id is based on timestamp
+\item
+  HTTP GET:
+
+  /vdsdata/d12/2007/1202248/1202248~2007-01-03~00:00:00
+\stopitemize
+
+\SlideTitle{Database per detector
+per year reasons:}
+
+\startitemize
+\item
+  One big database is possible, but
+\item
+  Impossible to {\em split} or {\em shard} over different machines (now
+  can use BigCouch)
+\item
+  makes better use of multi-core machines when generating views
+\stopitemize
+
+\SlideTitle{Use views to run
+models and summarize data}
+
+\startitemize
+\item
+  Views are CouchDB's version of map/reduce
+\item
+  Write JavaScript code for the map function that is run on each
+  document (to apply models, run summaries, etc)
+\item
+  ProTip\high{©} Only use embedded Erlang reduce functions like
+  \type{_count},\type{_sum}, and \type{_stats}
+\stopitemize
+
+\SlideTitle{Difficulty:
+Need to use another database to collate model output}
+
+\startitemize
+\item
+  Pipe summaries of the per-detector views to a single database for all
+  detectors in the district
+\item
+  Requires external programming
+\item
+  Difficult to automate
+\stopitemize
 
 \stoptext
