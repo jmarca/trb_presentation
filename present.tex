@@ -1,0 +1,522 @@
+\usemodule[simpleslides]
+          [style=BigNumber]
+
+\setupTitle
+  [ title={Finding Change in the CouchDB},
+   author={Dr.~James E. Marca},
+     date={January 13, 2013},
+  ]
+
+% where are the figures
+\setupexternalfigures[directory={./figs/}]
+% which figures are being used
+
+% red_couch.png
+% sad_dad.png
+% cap_theorem.jpg
+% data.png
+% traffic_circle.png
+% girl_bike.png
+% driving.png
+% couch_girl.png
+
+% Enable hyperlinks
+\setupinteraction[state=start, color=middleblue]
+
+\starttext
+\placeTitle
+
+
+% \IncludePicture
+% [horizontal]
+% [couch_girl.png]
+% {Finding Change in the CouchDB}
+
+
+%%\SlideTitle{Big Data}
+
+\IncludePicture
+[horizontal]
+[data.png]
+{Big Data}
+
+\SlideTitle{We've always had big data!}
+
+\startitemize
+\item
+  We've been handling big data for years in transportation
+\item
+  What's wrong with sticking to the old tools?
+\stopitemize
+
+\SlideTitle{Old Way:}
+
+\startitemize
+\item
+  PostgreSQL
+\item
+  Simple queries
+\item
+  Canned aggregates
+\stopitemize
+
+\quotation{Is the current reading of volume and occupancy from some
+detector more or less than what should be expected?}
+
+\SlideTitle{But we had a new server\ldots{}}
+
+\startitemize
+\item
+  Lots of CPU
+\item
+  Big Disks
+\item
+  Raw data already loaded
+\item in PostgreSQL\ldots{}
+\stopitemize
+
+
+% \startblockquote
+% \quotation{What is the expected volume \crlf
+% for any 5 minute period \crlf
+% over the prior 365 days \crlf
+% for any loop detector}
+% \stopblockquote
+
+\IncludePicture
+[vertical]
+[sad_dad.png]
+{\raggedright
+{\startitemize
+\item
+  The index was too big
+\item
+  Extensive disk swapping
+\item
+  Super-duper slow!
+\stopitemize
+}}
+
+\SlideTitle{Origins of Big Data  and NoSQL}
+
+\startitemize
+\item
+  Google (Big Table)
+\item
+  Amazon (Dynamo)
+\stopitemize
+
+\IncludePicture
+[horizontal]
+[driving.png]
+{}
+
+
+\SlideTitle{Some options available now}
+
+\startitemize
+\item
+  Hadoop
+\item
+  MongoDB
+\item
+  Riak
+\item
+  CouchDB
+\item
+  BigCouch
+\item
+  Couchbase
+\item
+  Cassandra
+\item
+  Voldemort
+\item
+  RethinkDB
+\item
+  Datalog
+\item
+  and more all the time\ldots{}
+\stopitemize
+
+
+\IncludePicture
+[horizontal]
+[red_couch.png]
+{CouchDB is great for transportation data}
+
+\SlideTitle{Because transportation data is}
+
+\startitemize
+\item
+  largely observations and measurements
+\item
+  write once
+\item
+  read raw data for short term applications
+\item
+  process raw data into summary stats
+\stopitemize
+
+%\SlideTitle{Example: Loop Detectors}
+
+% \startitemize
+% \item
+%   30s volume, occupancy
+% \item
+%   some misses and noise
+% \item
+%   run-once cleanup procedures
+% \stopitemize
+
+\IncludePicture
+[horizontal]
+[traffic_circle.png]{Traffic events}
+
+% \SlideTitle[example-personal-gps-and-activity-stream]{Example: Personal GPS
+% and activity stream}
+
+% \startitemize
+% \item
+%   second by second GPS
+% \item
+%   slowly growing sets of:
+%   \startitemize
+%   \item
+%     routes,
+%   \item
+%     destinations,
+%   \item
+%     time windows
+%   \stopitemize
+% \item
+%   small set of repeated queries:
+%   \startitemize
+%   \item
+%     Optimize likely activities?
+%   \item
+%     Does traffic affect my usual pattern?
+%   \item
+%     etc
+%   \stopitemize
+% \stopitemize
+
+%\SlideTitle[why-do-i-think-couchdb-is-good-for-transportation-data-1]{Why
+%do I think CouchDB is good for transportation data?}
+
+%{\externalfigure[figs/red_couch.png]}\crlf
+
+\IncludePicture
+[horizontal]
+[red_couch.png]
+{What is CouchDB?}
+
+\SlideTitle{CouchDB is a document oriented database}
+
+\startitemize
+\item
+  no schema
+\item
+  JSON documents
+\item
+  Views (map and reduce steps) are analogous to queries
+\item
+  Eventual consistency
+\stopitemize
+
+% \SlideTitle[why-not-just-use-flat-files]{Why not just use flat files?}
+
+% \subsection[consider-loop-detectors]{Consider loop detectors}
+
+% \startitemize
+% \item
+%   One file per loop detector per year, or
+% \item
+%   One file for all detectors per day (what PeMS does)
+% \item
+%   Easy to organize and distribute
+% \item
+%   Fine for single user
+% \stopitemize
+
+% \SlideTitle[but-flat-files-can-lead-to-trouble]{But flat files can lead to
+% trouble}
+
+% \startitemize
+% \item
+%   Bad for multiuser
+%   \startitemize
+%   \item
+%     race conditions,
+%   \item
+%     version problems,
+%   \item
+%     etc
+%   \stopitemize
+% \item
+%   Difficult to query
+% \stopitemize
+
+% \startblockquote
+% \quotation{What was the volume and occupancy like last Monday?}
+% \stopblockquote
+
+% \SlideTitle[so-use-a-database]{So use a database}
+
+% {\externalfigure[figs/red_couch.png]}\crlf
+
+
+\IncludePicture
+[horizontal]
+[cap_theorem.jpg]{The CAP Theorem}
+
+\SlideTitle{The CAP theorem describes a fundamental limitation of databases}
+
+\startitemize
+\item
+  {\bf Consistency} All database clients see the same data, even with
+  concurrent updates.
+\item
+  {\bf Availability} All database clients are able to access some
+  version of the data.
+\item
+  {\bf Partition Tolerance} The database can be split over multiple
+  servers.
+\stopitemize
+
+{\em {\bf Choose any two}}
+
+\SlideTitle{Traditional RDBMS}
+
+\startitemize
+\item Consistency
+\item Availability
+\stopitemize
+
+\SlideTitle{CouchDB}
+
+\startitemize
+\item
+  {\bf A}vailability
+\item  {\bf P}artition Tolerance
+\stopitemize
+
+\startblockquote
+\quotation{Eventually Consistent}
+\stopblockquote
+
+\SlideTitle{Consistency
+isn't that big a deal for traffic data}
+
+\startitemize
+\item
+  This isn't stock trading or e-commerce
+\item
+  It's okay if:
+  \startitemize
+  \item
+    you are 30s behind reading a loop
+  \item
+    Controller A has slightly more current info than Controller B
+  \stopitemize
+\stopitemize
+
+\startblockquote
+A universally consistent view isn't mission critical
+\stopblockquote
+
+\SlideTitle{Bonus: CouchDB has
+master-master replication}
+
+Replication is super awesome!
+
+\IncludePicture
+[horizontal]
+[couch_girl.png]
+{Replication is the {\em change} I was looking
+for}
+
+\SlideTitle{We can have distributed databases!!}
+
+\startitemize
+\item
+  Put the database {\em at the detector}
+\item
+  Move data around by using replication
+\stopitemize
+
+\startitemize
+\item
+  A TMC can  pull from {\em all} detector databases
+\item
+  A Local TMC can {\em limit replication} to relevant
+  detectors
+\item
+  A traveler can replicate traffic DBs along common routes
+\stopitemize
+
+
+\IncludePicture
+[horizontal]
+[girl_bike.png]
+{Relax}
+
+\SlideTitle{Practical experience}
+
+\startitemize[n][stopper=.]
+\item
+  Processing, storing raw loop detector data
+\item
+  Imputing missing detector data
+\item
+  A single stash for storing detector metadata
+\stopitemize
+
+\SlideTitle{1: Processing Raw Loop Detector
+Data}
+
+\startitemize
+\item
+  Orange County, California (CalTrans District 12)
+\item
+  about 900 mainline detectors
+\item
+  Process in R
+  \startitemize
+  \item
+    compute 27 different measures per location
+  \item
+    for 20 minute running time window
+  \item
+    (vol, occ per lane + 27 ) per 30s period
+  \item
+    run models estimating relative risk of accident types
+  \stopitemize
+\item
+  280GB of data (three years)
+\item
+  590GB of generated views
+\stopitemize
+
+
+\SlideTitle{2: Storing the results of imputation runs}
+
+\startitemize
+\item
+  400GB of data
+\item
+  700GB of generated views
+\item
+  Databases spread over three machines
+\item
+  Uses per-district collation databases
+\item
+  Analysis step used CouchDB to coordinate multiple processes
+  \startitemize
+  \item
+    Local \quotation{state} database on each machine
+  \item
+    State databases replicated with each other
+  \item
+    No overlapping runs were observed
+  \stopitemize
+\stopitemize
+
+\SlideTitle{3: Convenient stash for detector metadata}
+
+\startitemize
+\item
+  20GB of data
+\item
+  222MB of generated views
+\item
+  Uses GeoCouch extensions, stores location of each detector
+\item
+  Stashes all known metadata about each detector in a single place
+\item
+  Uses binary attachments to save R analysis output (plots, files)
+\item
+  Small enough to replicate to my laptop too
+\stopitemize
+
+\SlideTitle{Questions?}
+
+{\raggedright
+James E. Marca \crlf
+UCI ITS \crlf
+jmarca@translab.its.uci.edu
+
+
+Research funded by Caltrans, California Air Resources Board}
+
+
+%%\section{additional slides}
+\SlideTitle{Database design:}
+
+\startitemize
+\item
+  One CouchDB database per detector
+\item
+  One document per day
+\stopitemize
+
+\SlideTitle{Document per day reasons:}
+
+\startitemize
+\item
+  Based on \overstrikes{painful experience} informal testing
+\item
+  One document per year is too big to process
+\item
+  One document per timestamp would work okay,
+\item
+  But the web {\em application} uses daily data
+\item
+  CouchDB sorts by document id, id is based on timestamp
+\item
+  HTTP GET:
+
+  /vdsdata/d12/2007/1202248/1202248~2007-01-03~00:00:00
+\stopitemize
+
+\SlideTitle{Database per detector
+per year reasons:}
+
+\startitemize
+\item
+  One big database is possible, but
+\item
+  Impossible to {\em split} or {\em shard} over different machines (now
+  can use BigCouch)
+\item
+  makes better use of multi-core machines when generating views
+\stopitemize
+
+\SlideTitle{Use views to run
+models and summarize data}
+
+\startitemize
+\item
+  Views are CouchDB's version of map/reduce
+\item
+  Write JavaScript code for the map function that is run on each
+  document (to apply models, run summaries, etc)
+\item
+  ProTip\high{©} Only use embedded Erlang reduce functions like
+  \type{_count},\type{_sum}, and \type{_stats}
+\stopitemize
+
+\SlideTitle{Difficulty:
+Need to use another database to collate model output}
+
+\startitemize
+\item
+  Pipe summaries of the per-detector views to a single database for all
+  detectors in the district
+\item
+  Requires external programming
+\item
+  Difficult to automate
+\stopitemize
+
+\stoptext
